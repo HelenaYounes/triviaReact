@@ -1,15 +1,12 @@
 import {useState} from 'react';
+import Header from './Header';
 
-const Home = ({questions}) => {
-    const [questionsList, setQuestionsList] = useState(questions);
-    return (
+const Home = ({list}) => {
+    const [categoriesList, setCategoriesList] = useState(list);
+  return (
         <div>
-            {questionsList.map((question) => {
-                return (
-                    <p>{question.question}</p>
-                );
-
-            })}
+            <h1>Welcome To trivia Game</h1>
+            <Header menu={list}/>
         </div>
     );
 }
