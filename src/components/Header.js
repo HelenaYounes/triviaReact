@@ -1,12 +1,10 @@
 import { CListGroup, CListGroupItem } from '@coreui/react'
 
-const Header = ({menu}) => {
-    // const handleClick = () => {
+const Header = ({menu, onPickCategory}) => {
 
-    // }
     return (
         <CListGroup>
-            {menu.map(cat => <CListGroupItem component="button" onClick={(e) => console.log(e)}>{cat[0]}</CListGroupItem>)}
+            {menu.map(cat => <CListGroupItem component="button" onClick={(e) => onPickCategory(e.target.firstChild)}>{cat}</CListGroupItem>)}
       </CListGroup>
     );
 }
