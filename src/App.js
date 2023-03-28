@@ -1,10 +1,9 @@
 import {useState, useEffect} from 'react';
 import {Routes, Route, Navigate} from 'react-router-dom';
 import Home from './components/Home';
+import Questions from './components/Questions';
 import './App.css';
-import '@coreui/coreui/dist/css/coreui.min.css'
-
-
+import '@coreui/coreui/dist/css/coreui.min.css';
 
 function App() {
   const [triviaCategories, setTriviaCategories] = useState([]);
@@ -27,6 +26,7 @@ function App() {
     <Routes>
       <Route path='/' element={<Navigate to='/home' />}/>
       <Route path='/home' element={<Home list= {triviaCategories}/>}/>
+      <Route path='/questions' element={<Questions />} />
     </Routes>
   );
 }

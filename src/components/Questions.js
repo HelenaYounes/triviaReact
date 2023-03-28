@@ -1,7 +1,13 @@
-const Questions = ({questions}) => {
+import { useLocation } from "react-router-dom";
+
+const Questions = () => {
+    const location = useLocation();
+    const questionsList = location.state.questions;
     return (
-        <p>{questions[0].question}</p>
-    );
+        <ul>
+            {questionsList.map(question => <li>{question.question}</li>)}
+        </ul>
+    )
 }
 
 export default Questions;
