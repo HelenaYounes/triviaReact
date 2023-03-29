@@ -3,10 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CCallout, CListGroup, CListGroupItem } from "@coreui/react";
 import Header from "./Header";
 
-const Questions = ({ questions, totalScore, dispatch }) => {
+const Questions = ({questions, totalScore, dispatch}) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [questionsList, setQuestionsList] = useState(questions || {});
+  const [questionsList, setQuestionsList] = useState(questions || {})
   // const questionsList = questions;
   // const score = location.state.score;
   const score = totalScore;
@@ -16,34 +16,30 @@ const Questions = ({ questions, totalScore, dispatch }) => {
   const incorrects = questionsList[currentQ].incorrectAnswers;
   const choices = [...incorrects, answer];
 
-  useEffect(() => {
+  useEffect(()=> {
     console.log(questions);
-  }, []);
+  },[])
 
   const checkAnswer = (e) => {
     if (e.target.innerHTML === answer) {
-      alert("yes");
+     alert('yes')
     } else {
-      alert("no");
+      alert('no')
     }
     currentQ < questionsList.length - 1
       ? setCurrentQ(currentQ + 1)
-      : navigate("/home");
+      :  navigate("/home");
   };
 
   return (
     <div>
-      <Header score={score} />
-      {console.log(questions)}
+        <Header score={score}/>
+        {console.log(questions)}
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice) => {
           return (
-            <CListGroupItem
-              key={Math.random()}
-              component="button"
-              onClick={(e) => checkAnswer(e)}
-            >
+            <CListGroupItem key={Math.random()}component="button" onClick={(e) => checkAnswer(e)}>
               {choice}
             </CListGroupItem>
           );
