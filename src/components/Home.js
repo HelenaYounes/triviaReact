@@ -1,34 +1,29 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
-import Questions from "./Questions";
+import Categories from "./Categories";
 
-const Home = ({ list }) => {
-  const [categoriesList, setCategoriesList] = useState(list);
+
+
+const Home = ({ list, state, dispatch, fetchQuestionsList }) => {
   const navigate = useNavigate();
-  const [questionsList, setQuestionsList] = useState([
-    {
-      questions: {},
-    },
-  ]);
-
+  
   const fetchQuestions = async (category) => {
     const res = await fetch(
       `https://the-trivia-api.com/api/questions?limit=3&categories=${category}`
     );
     const json = await res.json();
-    setQuestionsList(json);
-    navigate("/questions", {
-      state: {
-        questions: json,
-      },
+   
+    dispatch({
+      type: 'getQuestionsList',
+      payload: {questionsList: json}
     });
+    navigate("/questions");
   };
 
   return (
     <div>
-      <h1>Welcome To trivia Game</h1>
-      <Header menu={list} onPickCategory={fetchQuestions} />
+      <Header score={state.totalScore} />
+      <Categories menu={list} onPickCategory={fetchQuestions} />
     </div>
   );
 };

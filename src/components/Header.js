@@ -1,18 +1,17 @@
-import { CListGroup, CListGroupItem } from "@coreui/react";
+import Score from "./Score";
+import { CHeader, CContainer } from "@coreui/react";
 
-const Header = ({ menu, onPickCategory }) => {
-  return (
-    <CListGroup>
-      {menu.map((cat) => (
-        <CListGroupItem
-          component="button"
-          onClick={(e) => onPickCategory(e.target.firstChild)}
-        >
-          {cat}
-        </CListGroupItem>
-      ))}
-    </CListGroup>
-  );
-};
+
+const Header = ({score}) => {
+    
+    return(
+    <CHeader>
+      <CContainer fluid>
+      <h1>Welcome to Trvia Game</h1>
+            <Score score={score} />
+      </CContainer>
+        </CHeader>
+    );
+}
 
 export default Header;
