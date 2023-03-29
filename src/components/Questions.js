@@ -1,45 +1,50 @@
-import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CCallout, CListGroup, CListGroupItem } from "@coreui/react";
-import Header from "./Header";
+import Score from "./Score";
 
-const Questions = ({questions, totalScore, dispatch}) => {
+const Questions = ({ questions, totalScore, dispatch }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [questionsList, setQuestionsList] = useState(questions || {})
-  // const questionsList = questions;
-  // const score = location.state.score;
-  const score = totalScore;
+  const [currentScore, setCurrentScore] = useState(0);
   const [currentQ, setCurrentQ] = useState(0);
-  const question = questionsList[currentQ].question;
-  const answer = questionsList[currentQ].correctAnswer;
-  const incorrects = questionsList[currentQ].incorrectAnswers;
+  const question = questions[currentQ].question;
+  const answer = questions[currentQ].correctAnswer;
+  const incorrects = questions[currentQ].incorrectAnswers;
   const choices = [...incorrects, answer];
 
-  useEffect(()=> {
-    console.log(questions);
-  },[])
-
   const checkAnswer = (e) => {
+    e.target.setAttribute("active", true);
     if (e.target.innerHTML === answer) {
-     alert('yes')
+      e.target.setAttribute("color", "success");
+      dispatch({
+        type: "increaseTotalScore",
+        payload: { totalScore: totalScore + 1 },
+      });
+      setCurrentScore(currentScore + 1);
     } else {
-      alert('no')
+      e.target.setAttribute("color", "danger");
+      console.log(e);
     }
-    currentQ < questionsList.length - 1
+    currentQ < questions.length - 1
       ? setCurrentQ(currentQ + 1)
-      :  navigate("/home");
+      : navigate("/home");
   };
 
   return (
     <div>
-        <Header score={score}/>
-        {console.log(questions)}
+      <h1>
+        Current score:
+        <Score score={currentScore} />
+      </h1>
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice) => {
           return (
-            <CListGroupItem key={Math.random()}component="button" onClick={(e) => checkAnswer(e)}>
+            <CListGroupItem
+              key={Math.random()}
+              component="button"
+              onClick={(e) => checkAnswer(e)}
+            >
               {choice}
             </CListGroupItem>
           );
