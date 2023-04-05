@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import Questions from "./components/Questions";
@@ -30,7 +30,6 @@ const initialState = {
 };
 
 function App() {
-  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
