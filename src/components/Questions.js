@@ -10,9 +10,12 @@ const Questions = ({ questions, totalScore, dispatch }) => {
     isSelected: false,
     colorAns: "light",
   };
-  const [stateQ, setStateQ] = useState(commencingState);
-  const [currentQ, setCurrentQ] = useState(0);
   const [currentScore, setCurrentScore] = useState(0);
+  const [stateQ, setStateQ] = useState({
+    commencingState,
+    score: currentScore,
+  });
+  const [currentQ, setCurrentQ] = useState(0);
 
   const question = questions[currentQ].question;
   const answer = questions[currentQ].correctAnswer;
@@ -21,8 +24,12 @@ const Questions = ({ questions, totalScore, dispatch }) => {
 
   const choiceHandler = (e) => {
     let pick = "light";
+    let point = 0;
     if (!stateQ.isSelected) {
-      e.target.innerHTML === answer ? (pick = "success") : (pick = "danger");
+      if (e.target.innerHTML === answer) {
+        pick = "success";
+        point = 1;
+      } else pick = "danger";
     }
 
     setStateQ({
@@ -30,26 +37,29 @@ const Questions = ({ questions, totalScore, dispatch }) => {
       idPicked: e.target.attributes.id.value,
       isSelected: true,
       colorAns: pick,
+      score: stateQ.score + point,
     });
   };
 
   const nextQuestion = () => {
-    setStateQ(commencingState);
+    let points = stateQ.score;
+    setCurrentScore(points);
+    setStateQ({ ...commencingState, score: points });
     if (currentQ < questions.length - 1) {
       setCurrentQ(currentQ + 1);
     } else {
       dispatch({
         type: "increaseTotalScore",
-        payload: { totalScore: totalScore + currentScore },
+        payload: { totalScore: totalScore + points },
       });
-      setCurrentScore(0);
+      console.log(totalScore);
       navigate("/home");
     }
   };
 
   return (
     <div>
-      <Score score={currentScore} />
+      <Score score={stateQ.score} />
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice, index) => {
