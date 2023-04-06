@@ -1,29 +1,30 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CProgress, CProgressBar, CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
 import Score from "./Score";
+import { CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
 
-const Questions = ({ questions, totalScore, dispatch }) => {
+const Questions = ({
+  currentScore,
+  updateCurrentScore,
+  updateCurrentQ,
+  currentQ,
+  question,
+  answer,
+  choices,
+  totalScore,
+  dispatch,
+  limit,
+}) => {
   const navigate = useNavigate();
   const commencingState = {
     idPicked: null,
     isSelected: false,
     colorAns: "light",
   };
-  const [currentScore, setCurrentScore] = useState(0);
+
   const [stateQ, setStateQ] = useState({
-    commencingState,
-    score: currentScore,
+    commencingState
   });
-  const [currentQ, setCurrentQ] = useState(0);
-
-  const question = questions[currentQ].question;
-  const answer = questions[currentQ].correctAnswer;
-  const incorrects = questions[currentQ].incorrectAnswers;
-  const choices = [...incorrects, answer].sort();
-
-  const progress = useRef(0);
-
 
   const choiceHandler = (e) => {
     let pick = "light";
@@ -31,7 +32,7 @@ const Questions = ({ questions, totalScore, dispatch }) => {
     if (!stateQ.isSelected) {
       if (e.target.innerHTML === answer) {
         pick = "success";
-        point = 1;
+        updateCurrentScore();
       } else pick = "danger";
     }
 
@@ -40,21 +41,17 @@ const Questions = ({ questions, totalScore, dispatch }) => {
       idPicked: e.target.attributes.id.value,
       isSelected: true,
       colorAns: pick,
-      score: stateQ.score + point,
     });
   };
 
   const nextQuestion = () => {
-    let points = stateQ.score;
-    setCurrentScore(points);
-    setStateQ({ ...commencingState, score: points });
-    if (currentQ < questions.length - 1) {
-      setCurrentQ(currentQ + 1);
-      progress.current += 1;
+    setStateQ({ ...commencingState });
+    if (currentQ < limit - 1) {
+      updateCurrentQ();
     } else {
       dispatch({
         type: "increaseTotalScore",
-        payload: { totalScore: totalScore + points },
+        payload: { totalScore: totalScore + currentScore },
       });
       navigate("/home");
     }
@@ -62,10 +59,7 @@ const Questions = ({ questions, totalScore, dispatch }) => {
 
   return (
     <div>
-      <Score score={stateQ.score} />
-      <CProgress className="mb-3">
-         <CProgressBar value={(progress.current/questions.length)*100}>{(progress.current/questions.length)*100}%</CProgressBar>
-      </CProgress>
+      <Score score={currentScore} text="Current Score" />
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice, index) => {

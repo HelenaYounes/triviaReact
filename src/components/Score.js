@@ -1,8 +1,8 @@
 import { CBadge } from "@coreui/react";
 
-const Score = ({ score }) => {
+const Score = ({ score, text }) => {
   return (
-    <h1>
+    <h1>{text}
       <CBadge color="secondary">{score}</CBadge>
     </h1>
   );

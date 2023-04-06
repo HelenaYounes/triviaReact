@@ -19,7 +19,7 @@ const Home = ({ list, state, dispatch }) => {
 
   return (
     <div>
-      <Header score={state.totalScore} />
+      <Header score={state.totalScore} text="Welcome To Trivia Game" />
       <CreateQuiz categoriesList={list} onPickCategory={fetchQuestions} />
     </div>
   );

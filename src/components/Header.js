@@ -1,11 +1,11 @@
 import Score from "./Score";
 import { CHeader, CContainer } from "@coreui/react";
 
-const Header = ({ score }) => {
+const Header = ({ score, text }) => {
   return (
     <CHeader>
       <CContainer fluid>
-        <h1>Welcome to Trivia Game</h1>
+        <h1>{text}</h1>
         <Score score={score} />
       </CContainer>
     </CHeader>
