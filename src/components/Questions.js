@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
 import Score from "./Score";
@@ -52,7 +52,6 @@ const Questions = ({ questions, totalScore, dispatch }) => {
         type: "increaseTotalScore",
         payload: { totalScore: totalScore + points },
       });
-      console.log(totalScore);
       navigate("/home");
     }
   };

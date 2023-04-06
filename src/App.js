@@ -39,12 +39,13 @@ function App() {
   const fetchTriviaCategories = async () => {
     const response = await fetch("https://the-trivia-api.com/api/categories");
     const json = await response.json();
-    const list = Object.keys(json);
-    const categories = [];
-    list.forEach((category) => categories.push(json[category][0]));
+    const listCategories = [];
+    Object.values(json).forEach((cat) => {
+      cat.map((el) => listCategories.push(el));
+    });
     dispatch({
       type: "getCategoriesList",
-      payload: { categoriesList: categories },
+      payload: { categoriesList: listCategories },
     });
   };
 
