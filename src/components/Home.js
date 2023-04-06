@@ -11,7 +11,6 @@ const Home = ({ list, state, dispatch }) => {
       `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}&difficulty=${difficulty}`
     );
     const json = await res.json();
-    console.log(json);
     dispatch({
       type: "getQuestionsList",
       payload: { questionsList: json },
@@ -23,7 +22,6 @@ const Home = ({ list, state, dispatch }) => {
     <div>
       <Header score={state.totalScore} />
       <CreateQuiz categoriesList={list} onPickCategory={fetchQuestions} />
-      {/* <Categories menu={list} onPickCategory={fetchQuestions} /> */}
     </div>
   );
 };
