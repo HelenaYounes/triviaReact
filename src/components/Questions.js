@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
+import { CProgress, CProgressBar, CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
 import Score from "./Score";
 
 const Questions = ({ questions, totalScore, dispatch }) => {
@@ -21,6 +21,9 @@ const Questions = ({ questions, totalScore, dispatch }) => {
   const answer = questions[currentQ].correctAnswer;
   const incorrects = questions[currentQ].incorrectAnswers;
   const choices = [...incorrects, answer].sort();
+
+  const progress = useRef(0);
+
 
   const choiceHandler = (e) => {
     let pick = "light";
@@ -47,6 +50,7 @@ const Questions = ({ questions, totalScore, dispatch }) => {
     setStateQ({ ...commencingState, score: points });
     if (currentQ < questions.length - 1) {
       setCurrentQ(currentQ + 1);
+      progress.current += 1;
     } else {
       dispatch({
         type: "increaseTotalScore",
@@ -59,6 +63,9 @@ const Questions = ({ questions, totalScore, dispatch }) => {
   return (
     <div>
       <Score score={stateQ.score} />
+      <CProgress className="mb-3">
+         <CProgressBar value={(progress.current/questions.length)*100}>{(progress.current/questions.length)*100}%</CProgressBar>
+      </CProgress>
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice, index) => {

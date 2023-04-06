@@ -5,7 +5,7 @@ const Header = ({ score }) => {
   return (
     <CHeader>
       <CContainer fluid>
-        <h1>Welcome to Trvia Game</h1>
+        <h1>Welcome to Trivia Game</h1>
         <Score score={score} />
       </CContainer>
     </CHeader>

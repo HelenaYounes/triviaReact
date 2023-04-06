@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import CreateQuiz from "./CreateQuiz";
-import Categories from "./Categories";
 
 const Home = ({ list, state, dispatch }) => {
   const navigate = useNavigate();
