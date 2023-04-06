@@ -3,16 +3,15 @@ import Header from "./Header";
 import CreateQuiz from "./CreateQuiz";
 import Categories from "./Categories";
 
-const Home = ({ list, state, dispatch, fetchQuestionsList }) => {
+const Home = ({ list, state, dispatch }) => {
   const navigate = useNavigate();
 
-  const fetchQuestions = async (category) => {
-    debugger
+  const fetchQuestions = async ({ category, difficulty, limit }) => {
     const res = await fetch(
-      `https://the-trivia-api.com/api/questions?limit=3&categories=${category}`
+      `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}&difficulty=${difficulty}`
     );
     const json = await res.json();
-
+    console.log(json);
     dispatch({
       type: "getQuestionsList",
       payload: { questionsList: json },
@@ -23,7 +22,7 @@ const Home = ({ list, state, dispatch, fetchQuestionsList }) => {
   return (
     <div>
       <Header score={state.totalScore} />
-      <CreateQuiz categories={list} onPickCategory={fetchQuestions}/>
+      <CreateQuiz categoriesList={list} onPickCategory={fetchQuestions} />
       {/* <Categories menu={list} onPickCategory={fetchQuestions} /> */}
     </div>
   );
