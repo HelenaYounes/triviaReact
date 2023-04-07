@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 import "./App.css";
@@ -7,6 +7,8 @@ import "@coreui/coreui/dist/css/coreui.min.css";
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "updateQuizzes":
+      return { ...state, quizzes: action.payload.quizzes };
     case "increaseTotalScore":
       return { ...state, totalScore: action.payload.totalScore };
     case "getQuestionsList":
@@ -27,6 +29,7 @@ const initialState = {
   questionsList: {
     questions: {},
   },
+  quizzes: JSON.parse(localStorage.getItem("quizzes")) || [],
 };
 
 function App() {
@@ -62,6 +65,7 @@ function App() {
         path="/questions"
         element={
           <Quiz
+            quizzes={state.quizzes}
             questions={state.questionsList}
             totalScore={state.totalScore}
             dispatch={dispatch}

@@ -2,12 +2,12 @@ import { CContainer, CBadge } from "@coreui/react";
 
 const Score = ({ score, text }) => {
   return (
-    <div >
+    <div>
       <h1>{text}</h1>
       <h1>
-      <CBadge color="secondary">{score}</CBadge>
+        <CBadge color="secondary">{score}</CBadge>
       </h1>
-  </div>
+    </div>
   );
 };
 

@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import CreateQuiz from "./CreateQuiz";
 
 const Home = ({ list, state, dispatch }) => {
+  useEffect(() => {
+    localStorage.clear();
+    let quizzesList = JSON.stringify(state.quizzes);
+    localStorage.setItem("quizzes", quizzesList);
+  }, [state.quizzes]);
+
   const navigate = useNavigate();
 
   const fetchQuestions = async ({ category, difficulty, limit }) => {

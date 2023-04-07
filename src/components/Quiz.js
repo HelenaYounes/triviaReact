@@ -3,8 +3,7 @@ import Questions from "./Questions";
 import Header from "./Header";
 import { CProgress, CProgressBar } from "@coreui/react";
 
-const Quiz = ({ questions, totalScore, dispatch }) => {
-
+const Quiz = ({ quizzes, questions, totalScore, dispatch }) => {
   const [results, setResults] = useState([])
   const [currentQ, setCurrentQ] = useState(0);
   const [currentScore, setCurrentScore] = useState(0);
@@ -12,7 +11,6 @@ const Quiz = ({ questions, totalScore, dispatch }) => {
   const answer = questions[currentQ].correctAnswer;
   const incorrects = questions[currentQ].incorrectAnswers;
   const choices = [...incorrects, answer].sort();
-
   const updateCurrentQ = () => {
     setCurrentQ(currentQ + 1);
   };
@@ -28,6 +26,8 @@ const Quiz = ({ questions, totalScore, dispatch }) => {
     <div>
     <Header score={currentScore} text="Current Score"/>
       <Questions
+      quizzes={quizzes}
+        questions={questions}
         updateResults={updateResults}
         results={results}
         currentScore={currentScore}
