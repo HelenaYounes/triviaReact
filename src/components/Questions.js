@@ -41,39 +41,40 @@ const Questions = ({
         pick = "success";
         updateCurrentScore();
       } else pick = "danger";
+      setStateQ({
+        ...stateQ,
+        idPicked: e.target.attributes.id.value,
+        isSelected: true,
+        colorAns: pick,
+      });
     }
-
-    setStateQ({
-      ...stateQ,
-      idPicked: e.target.attributes.id.value,
-      isSelected: true,
-      colorAns: pick,
-    });
   };
 
   const nextQuestion = () => {
-    updateResults(pick);
-    quiz.score = currentScore;
-    setQuiz(quiz);
-    setStateQ({ ...commencingState });
-    if (currentQ < limit - 1) {
-      updateCurrentQ();
-    } else {
-      dispatch({
-        type: "increaseTotalScore",
-        payload: { totalScore: totalScore + currentScore },
-      });
-      dispatch({
-        type: "updateQuizzes",
-        payload: { quizzes: [...quizzes, quiz] },
-      });
-      navigate("/home");
+    if (stateQ.isSelected) {
+      updateResults(pick);
+      quiz.score = currentScore;
+      setQuiz(quiz);
+      setStateQ({ ...commencingState });
+      if (currentQ < limit - 1) {
+        updateCurrentQ();
+      } else {
+        dispatch({
+          type: "increaseTotalScore",
+          payload: { totalScore: totalScore + currentScore },
+        });
+        dispatch({
+          type: "updateQuizzes",
+          payload: { quizzes: [...quizzes, quiz] },
+        });
+        navigate("/home");
+      }
     }
   };
 
   return (
     <div>
-      <ProgressBar results={results} />
+      <ProgressBar results={results} val={Math.floor(100 / limit)} totalQ={limit}/>
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice, index) => {
@@ -82,15 +83,14 @@ const Questions = ({
               key={index}
               id={index}
               color={
-                index.toString() === stateQ.idPicked
-                  ? stateQ.colorAns
-                  : "light"
+                index.toString() === stateQ.idPicked ? stateQ.colorAns : "light"
               }
               onClick={choiceHandler}
             >
               {choice}
             </CListGroupItem>
-          )})}
+          );
+        })}
       </CListGroup>
       <CButton color="dark" variant="outline" onClick={nextQuestion}>
         Next question

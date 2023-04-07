@@ -1,10 +1,12 @@
 import { CProgress, CProgressBar } from "@coreui/react";
 
-const ProgressBar = (results) => {
+const ProgressBar = ({results, val, totalQ}) => {
   return (
     <CProgress className="mb-3">
-      {results.results.map((res, index) => {
-        return <CProgressBar key={index} value={10} color={res} />;
+      {results.map((res, index) => {
+        return (<CProgressBar key={index} value={val} color={res} >
+            {`${index+1}/${totalQ}`}
+        </CProgressBar>)
       })}
     </CProgress>
   );
