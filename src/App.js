@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
-import Questions from "./components/Questions";
+import Quiz from "./components/Quiz";
 import "./App.css";
 import "@coreui/coreui/dist/css/coreui.min.css";
 
@@ -61,7 +61,7 @@ function App() {
       <Route
         path="/questions"
         element={
-          <Questions
+          <Quiz
             questions={state.questionsList}
             totalScore={state.totalScore}
             dispatch={dispatch}

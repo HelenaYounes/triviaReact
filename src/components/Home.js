@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import CreateQuiz from "./CreateQuiz";
-import Categories from "./Categories";
 
 const Home = ({ list, state, dispatch }) => {
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ const Home = ({ list, state, dispatch }) => {
 
   return (
     <div>
-      <Header score={state.totalScore} />
+      <Header score={state.totalScore} text="Welcome To Trivia Game" />
       <CreateQuiz categoriesList={list} onPickCategory={fetchQuestions} />
     </div>
   );
