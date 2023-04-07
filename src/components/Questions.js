@@ -77,12 +77,12 @@ const Questions = ({
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice, index) => {
-          return choice === answer ? (
+          return (
             <CListGroupItem
               key={index}
               id={index}
               color={
-                stateQ.idPicked && index == stateQ.idPicked
+                index.toString() === stateQ.idPicked
                   ? stateQ.colorAns
                   : "light"
               }
@@ -90,21 +90,7 @@ const Questions = ({
             >
               {choice}
             </CListGroupItem>
-          ) : (
-            <CListGroupItem
-              key={index}
-              id={index}
-              color={
-                stateQ.idPicked && index == stateQ.idPicked
-                  ? stateQ.colorAns
-                  : "light"
-              }
-              onClick={choiceHandler}
-            >
-              {choice}
-            </CListGroupItem>
-          );
-        })}
+          )})}
       </CListGroup>
       <CButton color="dark" variant="outline" onClick={nextQuestion}>
         Next question
