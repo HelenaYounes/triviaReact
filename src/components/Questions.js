@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Score from "./Score";
-import { CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
+import Header from "./Header";
+import ProgressBar from "./ProgressBar";
+import {CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
 
+let pick = "light";
 const Questions = ({
+  updateResults,
+  results,
   currentScore,
   updateCurrentScore,
   updateCurrentQ,
@@ -22,13 +26,12 @@ const Questions = ({
     colorAns: "light",
   };
 
+
   const [stateQ, setStateQ] = useState({
     commencingState
   });
 
   const choiceHandler = (e) => {
-    let pick = "light";
-    let point = 0;
     if (!stateQ.isSelected) {
       if (e.target.innerHTML === answer) {
         pick = "success";
@@ -45,6 +48,7 @@ const Questions = ({
   };
 
   const nextQuestion = () => {
+    updateResults(pick);
     setStateQ({ ...commencingState });
     if (currentQ < limit - 1) {
       updateCurrentQ();
@@ -59,7 +63,7 @@ const Questions = ({
 
   return (
     <div>
-      <Score score={currentScore} text="Current Score" />
+     <ProgressBar results={results}/>
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice, index) => {
