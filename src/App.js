@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
@@ -7,6 +7,8 @@ import "@coreui/coreui/dist/css/coreui.min.css";
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "updateQuizzes":
+      return {...state, quizzes: action.payload.quizzes}
     case "increaseTotalScore":
       return { ...state, totalScore: action.payload.totalScore };
     case "getQuestionsList":
@@ -27,6 +29,7 @@ const initialState = {
   questionsList: {
     questions: {},
   },
+  quizzes: [],
 };
 
 function App() {
@@ -35,6 +38,7 @@ function App() {
   useEffect(() => {
     fetchTriviaCategories();
   }, []);
+  
 
   const fetchTriviaCategories = async () => {
     const response = await fetch("https://the-trivia-api.com/api/categories");
@@ -62,6 +66,7 @@ function App() {
         path="/questions"
         element={
           <Quiz
+            quizzes={state.quizzes}
             questions={state.questionsList}
             totalScore={state.totalScore}
             dispatch={dispatch}

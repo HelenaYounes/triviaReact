@@ -7,7 +7,7 @@ const Home = ({ list, state, dispatch }) => {
 
   const fetchQuestions = async ({ category, difficulty, limit }) => {
     const res = await fetch(
-      `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}&difficulty=${difficulty}`
+      `https://the-trivia-api.com/api/questions?limit=1&categories=${category}&difficulty=${difficulty}`
     );
     const json = await res.json();
     dispatch({

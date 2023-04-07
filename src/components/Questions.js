@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header";
 import ProgressBar from "./ProgressBar";
 import {CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
 
 let pick = "light";
 const Questions = ({
+  quizzes,
+  questions,
   updateResults,
   results,
   currentScore,
@@ -26,12 +27,17 @@ const Questions = ({
     colorAns: "light",
   };
 
+const [quiz, setQuiz] = useState({
+  questions: questions,
+  score: currentScore
 
+})
   const [stateQ, setStateQ] = useState({
     commencingState
   });
 
   const choiceHandler = (e) => {
+    console.log(quizzes)
     if (!stateQ.isSelected) {
       if (e.target.innerHTML === answer) {
         pick = "success";
@@ -49,6 +55,8 @@ const Questions = ({
 
   const nextQuestion = () => {
     updateResults(pick);
+    quiz.score = currentScore;
+    setQuiz(quiz)
     setStateQ({ ...commencingState });
     if (currentQ < limit - 1) {
       updateCurrentQ();
@@ -57,6 +65,10 @@ const Questions = ({
         type: "increaseTotalScore",
         payload: { totalScore: totalScore + currentScore },
       });
+      dispatch({
+        type: "updateQuizzes",
+        payload: { quizzes: [...quizzes,quiz]}
+      })
       navigate("/home");
     }
   };
