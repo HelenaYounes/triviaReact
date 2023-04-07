@@ -36,11 +36,8 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    localStorage.clear();
     fetchTriviaCategories();
-    
   }, []);
-
 
   const fetchTriviaCategories = async () => {
     const response = await fetch("https://the-trivia-api.com/api/categories");
