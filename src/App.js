@@ -1,5 +1,5 @@
-import { useEffect, useReducer, useState } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useEffect, useReducer } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 import "./App.css";
@@ -8,7 +8,7 @@ import "@coreui/coreui/dist/css/coreui.min.css";
 const reducer = (state, action) => {
   switch (action.type) {
     case "updateQuizzes":
-      return {...state, quizzes: action.payload.quizzes}
+      return { ...state, quizzes: action.payload.quizzes };
     case "increaseTotalScore":
       return { ...state, totalScore: action.payload.totalScore };
     case "getQuestionsList":
@@ -29,16 +29,18 @@ const initialState = {
   questionsList: {
     questions: {},
   },
-  quizzes: [],
+  quizzes: JSON.parse(localStorage.getItem("quizzes")) || [],
 };
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
+    localStorage.clear();
     fetchTriviaCategories();
+    
   }, []);
-  
+
 
   const fetchTriviaCategories = async () => {
     const response = await fetch("https://the-trivia-api.com/api/categories");

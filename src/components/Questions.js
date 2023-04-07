@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProgressBar from "./ProgressBar";
-import {CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
+import { CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
 
 let pick = "light";
 const Questions = ({
@@ -27,17 +27,15 @@ const Questions = ({
     colorAns: "light",
   };
 
-const [quiz, setQuiz] = useState({
-  questions: questions,
-  score: currentScore
-
-})
+  const [quiz, setQuiz] = useState({
+    questions: questions,
+    score: currentScore,
+  });
   const [stateQ, setStateQ] = useState({
-    commencingState
+    commencingState,
   });
 
   const choiceHandler = (e) => {
-    console.log(quizzes)
     if (!stateQ.isSelected) {
       if (e.target.innerHTML === answer) {
         pick = "success";
@@ -56,7 +54,7 @@ const [quiz, setQuiz] = useState({
   const nextQuestion = () => {
     updateResults(pick);
     quiz.score = currentScore;
-    setQuiz(quiz)
+    setQuiz(quiz);
     setStateQ({ ...commencingState });
     if (currentQ < limit - 1) {
       updateCurrentQ();
@@ -67,15 +65,15 @@ const [quiz, setQuiz] = useState({
       });
       dispatch({
         type: "updateQuizzes",
-        payload: { quizzes: [...quizzes,quiz]}
-      })
+        payload: { quizzes: [...quizzes, quiz] },
+      });
       navigate("/home");
     }
   };
 
   return (
     <div>
-     <ProgressBar results={results}/>
+      <ProgressBar results={results} />
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice, index) => {
