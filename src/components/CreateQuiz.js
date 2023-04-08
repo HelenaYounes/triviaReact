@@ -8,18 +8,30 @@ import {
   CButton,
   CFormSelect,
   CFormCheck,
+  CFormInput,
 } from "@coreui/react";
 
 const CreateQuiz = ({ categoriesList, onPickCategory }) => {
   const quiz = useRef({
-    category: "",
-    difficulty: "easy",
-    limit: "5",
+    category: null,
+    difficulty: null,
+    limit: null,
   });
+
+  const difficulties = ["easy", "medium", "hard"];
+
+  const isFormValid = () => {
+    return Object.values(quiz.current).every(val => val !== null)
+  };
+
+  const onChangeHandler = (e) => {
+    e.preventDefault();
+    quiz.current.limit = e.target.value;
+  };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    onPickCategory(quiz.current);
+    isFormValid()? onPickCategory(quiz.current): alert("fill the form")
   };
 
   return (
@@ -54,49 +66,29 @@ const CreateQuiz = ({ categoriesList, onPickCategory }) => {
           Number of Questions
         </CFormLabel>
         <CCol sm={10}>
-          <CFormSelect
-            aria-label="Default select example"
-            onChange={(e) => {
-              quiz.current.limit = e.target.value;
-            }}
-          >
-            <option>Select Number of Questions</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-          </CFormSelect>
+          <CFormInput
+            type="Number of questions"
+            id="floatingInputValid"
+            floatingClassName="mb-3"
+            onChange={onChangeHandler}
+          />
         </CCol>
       </CRow>
       <fieldset className="row mb-3">
         <legend className="col-form-label col-sm-2 pt-0">Difficulty</legend>
-        <CCol
-          sm={10}
-          onClick={(e) => {
-            quiz.current.difficulty = e.target.value;
-          }}
-        >
-          <CFormCheck
-            type="radio"
-            name="gridRadios"
-            id="gridRadios1"
-            value="easy"
-            label="easy"
-            defaultChecked
-          />
-          <CFormCheck
-            type="radio"
-            name="gridRadios"
-            id="gridRadios2"
-            value="medium"
-            label="medium"
-          />
-          <CFormCheck
-            type="radio"
-            name="gridRadios"
-            id="gridRadios3"
-            value="hard"
-            label="hard"
-          />
+        <CCol sm={10}>
+          {difficulties.map((diff, index) => (
+              <CFormCheck
+                type="radio"
+                name="gridRadios"
+                id={index}
+                value={diff}
+                label={diff}
+                onClick={(e) => {
+                  quiz.current.difficulty = e.target.value;
+                }}
+              />
+            ))}
         </CCol>
       </fieldset>
       <CButton type="submit">Submit</CButton>
