@@ -21,7 +21,7 @@ const CreateQuiz = ({ categoriesList, onPickCategory }) => {
   const difficulties = ["easy", "medium", "hard"];
 
   const isFormValid = () => {
-    return Object.values(quiz.current).every(val => val !== null)
+    return Object.values(quiz.current).every((val) => val !== null);
   };
 
   const onChangeHandler = (e) => {
@@ -31,15 +31,13 @@ const CreateQuiz = ({ categoriesList, onPickCategory }) => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    isFormValid()? onPickCategory(quiz.current): alert("fill the form")
+    isFormValid() ? onPickCategory(quiz.current) : alert("fill the form");
   };
 
   return (
     <CForm onSubmit={onSubmitHandler}>
       <CRow className="mb-3">
-        <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
-          Categories
-        </CFormLabel>
+        <CFormLabel className="col-sm-2 col-form-label">Categories</CFormLabel>
         <CCol sm={10}>
           <CFormSelect
             aria-label="Default select example"
@@ -59,10 +57,7 @@ const CreateQuiz = ({ categoriesList, onPickCategory }) => {
         </CCol>
       </CRow>
       <CRow className="mb-3">
-        <CFormLabel
-          htmlFor="inputPassword3"
-          className="col-sm-2 col-form-label"
-        >
+        <CFormLabel className="col-sm-2 col-form-label">
           Number of Questions
         </CFormLabel>
         <CCol sm={10}>
@@ -78,17 +73,18 @@ const CreateQuiz = ({ categoriesList, onPickCategory }) => {
         <legend className="col-form-label col-sm-2 pt-0">Difficulty</legend>
         <CCol sm={10}>
           {difficulties.map((diff, index) => (
-              <CFormCheck
-                type="radio"
-                name="gridRadios"
-                id={index}
-                value={diff}
-                label={diff}
-                onClick={(e) => {
-                  quiz.current.difficulty = e.target.value;
-                }}
-              />
-            ))}
+            <CFormCheck
+              key={index}
+              type="radio"
+              name="gridRadios"
+              id={index}
+              value={diff}
+              label={diff}
+              onClick={(e) => {
+                quiz.current.difficulty = e.target.value;
+              }}
+            />
+          ))}
         </CCol>
       </fieldset>
       <CButton type="submit">Submit</CButton>

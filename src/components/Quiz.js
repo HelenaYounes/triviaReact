@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Questions from "./Questions";
 import Header from "./Header";
-import { CProgress, CProgressBar } from "@coreui/react";
+import Modal from "./Modal";
 
 const Quiz = ({ quizzes, questions, totalScore, dispatch }) => {
   const [results, setResults] = useState([])
@@ -25,6 +25,7 @@ const Quiz = ({ quizzes, questions, totalScore, dispatch }) => {
   return (
     <div>
     <Header score={currentScore} text="Current Score"/>
+    <Modal/>
       <Questions
       quizzes={quizzes}
         questions={questions}

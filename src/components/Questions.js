@@ -25,6 +25,7 @@ const Questions = ({
     idPicked: null,
     isSelected: false,
     colorAns: "light",
+    isDisabled: true,
   };
 
   const [quiz, setQuiz] = useState({
@@ -59,6 +60,7 @@ const Questions = ({
       if (currentQ < limit - 1) {
         updateCurrentQ();
       } else {
+        setStateQ({ ...stateQ, isDisabled: false });
         dispatch({
           type: "increaseTotalScore",
           payload: { totalScore: totalScore + currentScore },
@@ -67,14 +69,33 @@ const Questions = ({
           type: "updateQuizzes",
           payload: { quizzes: [...quizzes, quiz] },
         });
-        navigate("/home");
       }
     }
   };
 
   return (
     <div>
-      <ProgressBar results={results} val={Math.floor(100 / limit)} totalQ={limit}/>
+      <ProgressBar
+        results={results}
+        val={Math.floor(100 / limit)}
+        totalQ={limit}
+      />
+      {/* <CModal
+        className="show d-block position-static"
+        backdrop={false}
+        keyboard={false}
+        portal={false}
+        visible
+      >
+        <CModalHeader>
+          <CModalTitle>React Modal title</CModalTitle>
+        </CModalHeader>
+        <CModalBody>React Modal body text goes here.</CModalBody>
+        <CModalFooter>
+          <CButton color="secondary">Close</CButton>
+          <CButton color="primary">Save changes</CButton>
+        </CModalFooter>
+      </CModal> */}
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice, index) => {
@@ -92,8 +113,16 @@ const Questions = ({
           );
         })}
       </CListGroup>
+
       <CButton color="dark" variant="outline" onClick={nextQuestion}>
         Next question
+      </CButton>
+      <CButton
+        color="info"
+        disabled={stateQ.isDisabled}
+        onClick={() => navigate("/home")}
+      >
+        Home
       </CButton>
     </div>
   );
