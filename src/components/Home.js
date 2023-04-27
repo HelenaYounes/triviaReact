@@ -5,15 +5,16 @@ import Header from "./Header";
 import CreateQuiz from "./CreateQuiz";
 
 const Home = (props) => {
-  const {state, dispatch} = useQuizContext();
+  const { state, dispatch } = useQuizContext();
 
   // useEffect(() => {
   //   fetchTriviaCategories();
   // }, []);
 
- useEffect(()=>{
+  useEffect(() => {
     fetchTriviaCategories();
-  },[]);
+  }, []);
+
   const fetchTriviaCategories = async () => {
     const response = await fetch("https://the-trivia-api.com/api/categories");
     const json = await response.json();
@@ -26,33 +27,34 @@ const Home = (props) => {
       payload: { categoriesList: listCategories },
     });
   };
-  // useEffect(() => {
-  //   localStorage.clear();
-  //   let quizzesList = JSON.stringify(state.quizzes);
-  //   localStorage.setItem("quizzes", quizzesList);
-  // }, [state.quizzes]);
+  useEffect(() => {
+    localStorage.clear();
+    let quizzesList = JSON.stringify(state.quizzes);
+    localStorage.setItem("quizzes", quizzesList);
+  }, [state.quizzes]);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const fetchQuestions = async ({ category, difficulty, limit }) => {
-  //   const res = await fetch(
-  //     `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}&difficulty=${difficulty}`
-  //   );
-  //   const json = await res.json();
-  //   dispatch({
-  //     type: "getQuestionsList",
-  //     payload: { questionsList: json },
-  //   });
-  //   navigate("/questions");
-  // };
+  const fetchQuestions = async ({ category, difficulty, limit }) => {
+    const res = await fetch(
+      `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}&difficulty=${difficulty}`
+    );
+    const json = await res.json();
+    dispatch({
+      type: "getQuestionsList",
+      payload: { questionsList: json },
+    });
+    navigate("questions");
+  };
 
   return (
-    <div>
-    {console.log(state)}
-      <h1>hey</h1>
-      {/* <Header score={state.totalScore} text="Welcome To Trivia Game" />
-      <CreateQuiz categoriesList={list} onPickCategory={fetchQuestions} /> */}
-    </div>
+    <>
+      <Header score={state.totalScore} text="Welcome To Trivia Game" />
+      <CreateQuiz
+        categoriesList={state.categoriesList}
+        onPickCategory={fetchQuestions}
+      />
+    </>
   );
 };
 

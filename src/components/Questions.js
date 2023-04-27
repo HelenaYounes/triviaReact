@@ -67,14 +67,18 @@ const Questions = ({
           type: "updateQuizzes",
           payload: { quizzes: [...quizzes, quiz] },
         });
-        navigate("/home");
+        navigate("/");
       }
     }
   };
 
   return (
     <div>
-      <ProgressBar results={results} val={Math.floor(100 / limit)} totalQ={limit}/>
+      <ProgressBar
+        results={results}
+        val={Math.floor(100 / limit)}
+        totalQ={limit}
+      />
       <CCallout color="primary">{question}</CCallout>
       <CListGroup>
         {choices.map((choice, index) => {

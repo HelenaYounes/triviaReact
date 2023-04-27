@@ -1,10 +1,9 @@
 import { useState } from "react";
 import Questions from "./Questions";
 import Header from "./Header";
-import { CProgress, CProgressBar } from "@coreui/react";
 
 const Quiz = ({ quizzes, questions, totalScore, dispatch }) => {
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [currentScore, setCurrentScore] = useState(0);
   const question = questions[currentQ].question;
@@ -16,17 +15,17 @@ const Quiz = ({ quizzes, questions, totalScore, dispatch }) => {
   };
 
   const updateResults = (color) => {
-    setResults(results => [...results,color]);
-  }
+    setResults((results) => [...results, color]);
+  };
   const updateCurrentScore = () => {
     setCurrentScore(currentScore + 1);
   };
 
   return (
     <div>
-    <Header score={currentScore} text="Current Score"/>
+      <Header score={currentScore} text="Current Score" />
       <Questions
-      quizzes={quizzes}
+        quizzes={quizzes}
         questions={questions}
         updateResults={updateResults}
         results={results}
