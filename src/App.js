@@ -1,26 +1,13 @@
 import { useEffect, useReducer } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import QuizContext from "./context/QuizContext";
+import { quizReducer } from "./reducers/QuizReducer";
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 import "./App.css";
 import "@coreui/coreui/dist/css/coreui.min.css";
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "updateQuizzes":
-      return { ...state, quizzes: action.payload.quizzes };
-    case "increaseTotalScore":
-      return { ...state, totalScore: action.payload.totalScore };
-    case "getQuestionsList":
-      return { ...state, questionsList: action.payload.questionsList };
-    case "getCategoriesList":
-      return { ...state, categoriesList: action.payload.categoriesList };
-    case "getCategory":
-      return { ...state, category: action.payload.category };
-    default:
-      return state;
-  }
-};
+
 
 const initialState = {
   categoriesList: [],
@@ -33,12 +20,14 @@ const initialState = {
 };
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  useEffect(() => {
+  const [state, dispatch] = useReducer(quizReducer, initialState);
+  const quizStateProvider = {
+    state,
+    dispatch
+  }
+  useEffect(()=>{
     fetchTriviaCategories();
-  }, []);
-
+  },[]);
   const fetchTriviaCategories = async () => {
     const response = await fetch("https://the-trivia-api.com/api/categories");
     const json = await response.json();
@@ -53,15 +42,15 @@ function App() {
   };
 
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/home" />} />
+    <QuizContext.Provider value={quizStateProvider}>
+ <Routes>
       <Route
-        path="/home"
+        path="/"
         element={
-          <Home list={state.categoriesList} state={state} dispatch={dispatch} />
+          <Home />
         }
       />
-      <Route
+      {/* <Route
         path="/questions"
         element={
           <Quiz
@@ -71,8 +60,10 @@ function App() {
             dispatch={dispatch}
           />
         }
-      />
+      /> */}
     </Routes>
+    </QuizContext.Provider>
+   
   );
 }
 
