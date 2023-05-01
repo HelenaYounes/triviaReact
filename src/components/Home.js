@@ -1,15 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuizContext } from "../context/QuizContext";
 import Header from "./Header";
-import CreateQuiz from "./CreateQuiz";
+// import CreateQuiz from "./CreateQuiz";
+import Modal from "./Modal";
+import { CButton } from "@coreui/react";
 
 const Home = (props) => {
   const { state, dispatch } = useQuizContext();
-
-  // useEffect(() => {
-  //   fetchTriviaCategories();
-  // }, []);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     fetchTriviaCategories();
@@ -50,7 +49,10 @@ const Home = (props) => {
   return (
     <>
       <Header score={state.totalScore} text="Welcome To Trivia Game" />
-      <CreateQuiz
+      <CButton onClick={() => setVisible(!visible)}>Create New Quiz</CButton>
+      <Modal
+        visible={visible}
+        onClose={() => setVisible(false)}
         categoriesList={state.categoriesList}
         onPickCategory={fetchQuestions}
       />
