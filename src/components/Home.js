@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuizContext } from "../context/QuizContext";
 import Header from "./Header";
-// import CreateQuiz from "./CreateQuiz";
 import Modal from "./Modal";
+import Account from "./Account";
 import { CButton } from "@coreui/react";
 
 const Home = (props) => {
@@ -39,9 +39,16 @@ const Home = (props) => {
       `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}&difficulty=${difficulty}`
     );
     const json = await res.json();
+    const newQuiz = {
+      category,
+      questions: json,
+      difficulty,
+      score: 0,
+      limit: json.length,
+    }
     dispatch({
-      type: "getQuestionsList",
-      payload: { questionsList: json },
+      type: "createQuiz",
+      payload: { newQuiz },
     });
     navigate("questions");
   };
@@ -49,6 +56,7 @@ const Home = (props) => {
   return (
     <>
       <Header score={state.totalScore} text="Welcome To Trivia Game" />
+      <Account quizzes= {state.quizzes}/>
       <CButton onClick={() => setVisible(!visible)}>Create New Quiz</CButton>
       <Modal
         visible={visible}

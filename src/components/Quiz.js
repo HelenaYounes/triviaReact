@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { useQuizContext } from "../context/QuizContext";
 import Questions from "./Questions";
 import Header from "./Header";
 
-const Quiz = ({ quizzes, questions, totalScore, dispatch }) => {
+const Quiz = (props) => {
+  const {state, dispatch} = useQuizContext();
   const [results, setResults] = useState([]);
   const [currentQ, setCurrentQ] = useState(0);
   const [currentScore, setCurrentScore] = useState(0);
-  const question = questions[currentQ].question;
-  const answer = questions[currentQ].correctAnswer;
-  const incorrects = questions[currentQ].incorrectAnswers;
+  const question = state.newQuiz.questions[currentQ].question;
+  const answer = state.newQuiz.questions[currentQ].correctAnswer;
+  const incorrects = state.newQuiz.questions[currentQ].incorrectAnswers;
   const choices = [...incorrects, answer].sort();
   const updateCurrentQ = () => {
     setCurrentQ(currentQ + 1);
@@ -23,10 +25,11 @@ const Quiz = ({ quizzes, questions, totalScore, dispatch }) => {
 
   return (
     <div>
+    
       <Header score={currentScore} text="Current Score" />
       <Questions
-        quizzes={quizzes}
-        questions={questions}
+        quizzes={state.quizzes}
+        // questions={questions}
         updateResults={updateResults}
         results={results}
         currentScore={currentScore}
@@ -36,9 +39,9 @@ const Quiz = ({ quizzes, questions, totalScore, dispatch }) => {
         question={question}
         answer={answer}
         choices={choices}
-        totalScore={totalScore}
+        totalScore={props.totalScore}
         dispatch={dispatch}
-        limit={questions.length}
+        limit={state.newQuiz.limit}
       />
     </div>
   );

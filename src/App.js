@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import QuizContext from "./context/QuizContext";
 import { quizReducer } from "./reducers/QuizReducer";
 import Home from "./components/Home";
+import Quizzes from "./components/Quizzes";
 import Quiz from "./components/Quiz";
 import "./App.css";
 import "@coreui/coreui/dist/css/coreui.min.css";
@@ -11,8 +12,12 @@ const initialState = {
   categoriesList: [],
   totalScore: 0,
   category: "",
-  questionsList: {
+  newQuiz: {
+    category: "",
     questions: {},
+    difficulty: "",
+    score: 0,
+    limit: 0
   },
   quizzes: JSON.parse(localStorage.getItem("quizzes")) || [],
 };
@@ -28,17 +33,10 @@ function App() {
     <QuizContext.Provider value={quizStateProvider}>
       <Routes>
         <Route path="/" element={<Home />} />
-
+        <Route path="/quizzes" element = {<Quizzes quizzes={state.quizzes}/>}/>
         <Route
           path="questions"
-          element={
-            <Quiz
-              quizzes={state.quizzes}
-              questions={state.questionsList}
-              totalScore={state.totalScore}
-              dispatch={dispatch}
-            />
-          }
+          element={<Quiz />}
         />
       </Routes>
     </QuizContext.Provider>
