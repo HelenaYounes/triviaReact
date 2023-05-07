@@ -1,14 +1,31 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuizContext } from "../context/QuizContext";
 import Header from "./Header";
-import CreateQuiz from "./CreateQuiz";
+import Modal from "./Modal";
+import Account from "./Account";
+import { CButton } from "@coreui/react";
 
-const Home = ({ list, state, dispatch }) => {
+const Home = (props) => {
+  const { state, dispatch } = useQuizContext();
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
-    localStorage.clear();
-    let quizzesList = JSON.stringify(state.quizzes);
-    localStorage.setItem("quizzes", quizzesList);
-  }, [state.quizzes]);
+    fetchTriviaCategories();
+  }, []);
+
+  const fetchTriviaCategories = async () => {
+    const response = await fetch("https://the-trivia-api.com/api/categories");
+    const json = await response.json();
+    const listCategories = [];
+    Object.values(json).forEach((cat) => {
+      cat.map((el) => listCategories.push(el));
+    });
+    dispatch({
+      type: "getCategoriesList",
+      payload: { categoriesList: listCategories },
+    });
+  };
 
   const navigate = useNavigate();
 
@@ -17,18 +34,39 @@ const Home = ({ list, state, dispatch }) => {
       `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}&difficulty=${difficulty}`
     );
     const json = await res.json();
-    dispatch({
-      type: "getQuestionsList",
-      payload: { questionsList: json },
+    const questions = json.map((el) => {
+      return {
+        question: el.question,
+        answer: el.correctAnswer,
+        choices: [...el.incorrectAnswers, el.correctAnswer].sort(),
+        id: el.id,
+      };
     });
-    navigate("/questions");
+    const newQuiz = {
+      category,
+      questions,
+      difficulty,
+      limit: json.length,
+    };
+    dispatch({
+      type: "createQuiz",
+      payload: { newQuiz },
+    });
+    navigate("questions");
   };
 
   return (
-    <div>
-      <Header score={state.totalScore} text="Welcome To Trivia Game" />
-      <CreateQuiz categoriesList={list} onPickCategory={fetchQuestions} />
-    </div>
+    <>
+      <Header text="Welcome To Trivia Game" />
+      <Account quizzes={state.quizzes} />
+      <CButton onClick={() => setVisible(!visible)}>Create New Quiz</CButton>
+      <Modal
+        visible={visible}
+        onClose={() => setVisible(false)}
+        categoriesList={state.categoriesList}
+        onPickCategory={fetchQuestions}
+      />
+    </>
   );
 };
 

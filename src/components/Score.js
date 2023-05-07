@@ -1,4 +1,4 @@
-import { CContainer, CBadge } from "@coreui/react";
+import { CBadge } from "@coreui/react";
 
 const Score = ({ score, text }) => {
   return (
