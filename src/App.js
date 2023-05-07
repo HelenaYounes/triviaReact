@@ -11,12 +11,10 @@ import "@coreui/coreui/dist/css/coreui.min.css";
 const initialState = {
   categoriesList: [],
   totalScore: 0,
-  category: "",
   newQuiz: {
     category: "",
     questions: {},
     difficulty: "",
-    score: 0,
     limit: 0,
   },
   quizzes: JSON.parse(localStorage.getItem("quizzes")) || [],

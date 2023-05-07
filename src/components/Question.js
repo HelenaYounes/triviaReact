@@ -40,29 +40,6 @@ const Question = ({
     }
   };
 
-  // const [quiz, setQuiz] = useState({
-  //   questions: questions,
-  //   score: currentScore,
-  // });
-  // const [stateQ, setStateQ] = useState({
-  //   commencingState,
-  // });
-
-  // const choiceHandler = (e) => {
-  //   if (!stateQ.isSelected) {
-  //     if (e.target.innerHTML === answer) {
-  //       pick = "success";
-  //       updateCurrentScore();
-  //     } else pick = "danger";
-  //     setStateQ({
-  //       ...stateQ,
-  //       idPicked: e.target.attributes.id.value,
-  //       isSelected: true,
-  //       colorAns: pick,
-  //     });
-  //   }
-  // };
-
   // const nextQuestion = () => {
   //   if (stateQ.isSelected) {
   //     updateResults(pick);

@@ -18,6 +18,16 @@ const Quiz = () => {
     if (currentQ < state.newQuiz.limit - 1) {
       setCurrentQ(currentQ + 1);
     } else {
+      let quiz = { ...state.newQuiz, score: currentScore };
+      let quizzesList = [...state.quizzes, quiz];
+      quizzesList = JSON.stringify(quizzesList);
+      localStorage.clear();
+      localStorage.setItem("quizzes", quizzesList);
+
+      dispatch({
+        type: "updateQuizzes",
+        payload: { quizzes: [...state.quizzes, quiz] },
+      });
       navigate("/");
     }
   };

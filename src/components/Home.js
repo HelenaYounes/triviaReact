@@ -26,11 +26,6 @@ const Home = (props) => {
       payload: { categoriesList: listCategories },
     });
   };
-  useEffect(() => {
-    localStorage.clear();
-    let quizzesList = JSON.stringify(state.quizzes);
-    localStorage.setItem("quizzes", quizzesList);
-  }, [state.quizzes]);
 
   const navigate = useNavigate();
 
@@ -39,28 +34,31 @@ const Home = (props) => {
       `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}&difficulty=${difficulty}`
     );
     const json = await res.json();
-    const questions = json.map((el)=> {
-      return ({question: el.question, answer: el.correctAnswer, choices: [...el.incorrectAnswers, el.correctAnswer].sort(), id: el.id});
-    })
+    const questions = json.map((el) => {
+      return {
+        question: el.question,
+        answer: el.correctAnswer,
+        choices: [...el.incorrectAnswers, el.correctAnswer].sort(),
+        id: el.id,
+      };
+    });
     const newQuiz = {
       category,
       questions,
       difficulty,
-      score: 0,
       limit: json.length,
-    }
+    };
     dispatch({
       type: "createQuiz",
       payload: { newQuiz },
     });
     navigate("questions");
   };
-  
+
   return (
     <>
-      
       <Header score={state.totalScore} text="Welcome To Trivia Game" />
-      <Account quizzes= {state.quizzes}/>
+      <Account quizzes={state.quizzes} />
       <CButton onClick={() => setVisible(!visible)}>Create New Quiz</CButton>
       <Modal
         visible={visible}
@@ -69,7 +67,6 @@ const Home = (props) => {
         onPickCategory={fetchQuestions}
       />
     </>
-    
   );
 };
 
