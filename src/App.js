@@ -17,7 +17,7 @@ const initialState = {
     questions: {},
     difficulty: "",
     score: 0,
-    limit: 0
+    limit: 0,
   },
   quizzes: JSON.parse(localStorage.getItem("quizzes")) || [],
 };
@@ -33,11 +33,8 @@ function App() {
     <QuizContext.Provider value={quizStateProvider}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/quizzes" element = {<Quizzes quizzes={state.quizzes}/>}/>
-        <Route
-          path="questions"
-          element={<Quiz />}
-        />
+        <Route path="/quizzes" element={<Quizzes />} />
+        <Route path="questions" element={<Quiz />} />
       </Routes>
     </QuizContext.Provider>
   );

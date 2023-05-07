@@ -39,9 +39,12 @@ const Home = (props) => {
       `https://the-trivia-api.com/api/questions?limit=${limit}&categories=${category}&difficulty=${difficulty}`
     );
     const json = await res.json();
+    const questions = json.map((el)=> {
+      return ({question: el.question, answer: el.correctAnswer, choices: [...el.incorrectAnswers, el.correctAnswer].sort(), id: el.id});
+    })
     const newQuiz = {
       category,
-      questions: json,
+      questions,
       difficulty,
       score: 0,
       limit: json.length,
@@ -52,9 +55,10 @@ const Home = (props) => {
     });
     navigate("questions");
   };
-
+  
   return (
     <>
+      
       <Header score={state.totalScore} text="Welcome To Trivia Game" />
       <Account quizzes= {state.quizzes}/>
       <CButton onClick={() => setVisible(!visible)}>Create New Quiz</CButton>
@@ -65,6 +69,7 @@ const Home = (props) => {
         onPickCategory={fetchQuestions}
       />
     </>
+    
   );
 };
 
