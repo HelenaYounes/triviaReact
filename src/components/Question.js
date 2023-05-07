@@ -1,17 +1,20 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import ProgressBar from "./ProgressBar";
 import { CCallout, CListGroup, CListGroupItem, CButton } from "@coreui/react";
 
 let pick;
 let ans;
-const Question = ({ state, dispatch }) => {
-  const navigate = useNavigate();
-  const [currentQ, setCurrentQ] = useState(0);
+const Question = ({
+  state,
+  dispatch,
+  currentQ,
+  next,
+  updateProgress,
+  increaseScore,
+}) => {
   const [selection, setSelection] = useState();
   const question = state.newQuiz.questions[currentQ];
 
-  useEffect(() => {}, [currentQ, selection]);
+  useEffect(() => {}, [selection]);
 
   const isCorrect = (e) => {
     if (!selection) {
@@ -19,23 +22,21 @@ const Question = ({ state, dispatch }) => {
       pick = document.getElementById(idSelection);
       if (e.target.innerHTML === question.answer) {
         ans = "success";
+        increaseScore();
       } else {
         ans = "danger";
       }
       pick.classList.add(`list-group-item-${ans}`);
+      updateProgress(ans);
       setSelection(e.target);
     }
   };
 
-  const nextQuestion = () => {
+  const nextQ = () => {
     if (selection) {
       setSelection(null);
       pick.classList.remove(`list-group-item-${ans}`);
-      if (currentQ < state.newQuiz.questions.length - 1) {
-        setCurrentQ(currentQ + 1);
-      } else {
-        navigate("/");
-      }
+      next();
     }
   };
 
@@ -85,7 +86,6 @@ const Question = ({ state, dispatch }) => {
   // };
   return (
     <div>
-      <h1>{question.answer}</h1>
       <CCallout color="primary">{question.question}</CCallout>
       <CListGroup>
         {question.choices.map((choice, index) => {
@@ -100,19 +100,10 @@ const Question = ({ state, dispatch }) => {
           );
         })}
       </CListGroup>
-      <CButton color="dark" variant="outline" onClick={nextQuestion}>
+      <CButton color="dark" variant="outline" onClick={nextQ}>
         Next question
       </CButton>
     </div>
-
-    // <div>
-    //   <ProgressBar
-    //     results={results}
-    //     val={Math.floor(100 / limit)}
-    //     totalQ={limit}
-    //   />
-
-    // </div>
   );
 };
 
