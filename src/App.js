@@ -25,13 +25,13 @@ function App() {
   const quizStateProvider = {
     state,
     dispatch,
-  };
+  }
 
   return (
     <QuizContext.Provider value={quizStateProvider}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/quizzes" element={<Quizzes />} />
+        <Route path="quizzes" element={<Quizzes />} />
         <Route path="questions" element={<Quiz />} />
       </Routes>
     </QuizContext.Provider>

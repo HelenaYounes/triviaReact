@@ -11,7 +11,6 @@ import {
 const Modal = ({
   visible,
   onClose,
-  onClick,
   categoriesList,
   onPickCategory,
 }) => {

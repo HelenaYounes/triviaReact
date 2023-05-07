@@ -30,7 +30,7 @@ const Question = ({
       updateProgress(ans);
       setSelection(e.target);
     }
-  };
+  }
 
   const nextQ = () => {
     if (selection) {
@@ -38,29 +38,8 @@ const Question = ({
       pick.classList.remove(`list-group-item-${ans}`);
       next();
     }
-  };
+  }
 
-  // const nextQuestion = () => {
-  //   if (stateQ.isSelected) {
-  //     updateResults(pick);
-  //     quiz.score = currentScore;
-  //     setQuiz(quiz);
-  //     setStateQ({ ...commencingState });
-  //     if (currentQ < limit - 1) {
-  //       updateCurrentQ();
-  //     } else {
-  //       dispatch({
-  //         type: "increaseTotalScore",
-  //         payload: { totalScore: totalScore + currentScore },
-  //       });
-  //       dispatch({
-  //         type: "updateQuizzes",
-  //         payload: { quizzes: [...quizzes, quiz] },
-  //       });
-  //       navigate("/");
-  //     }
-  //   }
-  // };
   return (
     <div>
       <CCallout color="primary">{question.question}</CCallout>

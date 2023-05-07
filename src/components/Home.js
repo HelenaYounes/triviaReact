@@ -57,7 +57,7 @@ const Home = (props) => {
 
   return (
     <>
-      <Header score={state.totalScore} text="Welcome To Trivia Game" />
+      <Header text="Welcome To Trivia Game" />
       <Account quizzes={state.quizzes} />
       <CButton onClick={() => setVisible(!visible)}>Create New Quiz</CButton>
       <Modal

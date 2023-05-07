@@ -1,19 +1,27 @@
 import { useNavigate } from "react-router-dom";
-import { CCard, CCardTitle, CCardBody ,CCardHeader, CCardText,CButton} from '@coreui/react';
+import {
+  CCard,
+  CCardTitle,
+  CCardBody,
+  CCardHeader,
+  CCardText,
+  CButton,
+} from "@coreui/react";
 
-const Account = () => {
-    const navigate = useNavigate();
-
-    return (
-      <CCard>
-      <CCardHeader>Header</CCardHeader>
+const Account = ({quizzes}) => {
+  const navigate = useNavigate();
+  return (
+    <CCard>
+      <CCardHeader>My Quizzes</CCardHeader>
       <CCardBody>
-        <CCardTitle>Special title treatment</CCardTitle>
-        <CCardText>With supporting text below as a natural lead-in to additional content.</CCardText>
-        <CButton href="#">Go somewhere</CButton>
+        <CCardTitle>{quizzes.length} quizzes taken</CCardTitle>
+        <CCardText>
+          Average score: 
+        </CCardText>
+        <CButton onClick={()=> {navigate("quizzes")}}>Go to quizzes page</CButton>
       </CCardBody>
     </CCard>
-    )
-}
+  );
+};
 
 export default Account;
