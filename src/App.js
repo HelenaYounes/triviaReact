@@ -5,10 +5,12 @@ import { quizReducer } from "./reducers/QuizReducer";
 import Home from "./components/Home";
 import Quizzes from "./components/Quizzes";
 import Quiz from "./components/Quiz";
+import data from "./data/data.json";
 import "./App.css";
 import "@coreui/coreui/dist/css/coreui.min.css";
 
 const initialState = {
+  categories: data || {},
   categoriesList: [],
   totalScore: 0,
   newQuiz: {

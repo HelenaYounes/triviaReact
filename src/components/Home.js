@@ -6,20 +6,20 @@ import Modal from "./Modal";
 import Account from "./Account";
 import { CButton } from "@coreui/react";
 
+
+
 const Home = (props) => {
   const { state, dispatch } = useQuizContext();
   const [visible, setVisible] = useState(false);
-
+  
   useEffect(() => {
     fetchTriviaCategories();
   }, []);
 
-  const fetchTriviaCategories = async () => {
-    const response = await fetch("https://the-trivia-api.com/api/categories");
-    const json = await response.json();
+  const fetchTriviaCategories = () => {
     const listCategories = [];
-    Object.values(json).forEach((cat) => {
-      cat.map((el) => listCategories.push(el));
+    Object.values(state.categories).forEach((cat) => {
+      cat.map((el) => listCategories.push(el)); 
     });
     dispatch({
       type: "getCategoriesList",
